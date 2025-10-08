@@ -1,5 +1,5 @@
 <template>
-  <section class="wrapper container">
+  <section class="wrapper container" ref="sectionEl">
     <div class="wrapper__blocks">
       <div class="wrapper__block-A">
         <span id="about" class="wrapper__block-A-span info">Biz haqimizda</span>
@@ -19,7 +19,7 @@
     <div class="wrapper__grid">
       <div class="wrapper__item" v-for="(s, i) in items" :key="i">
         <div class="wrapper__value" :class="{ 'with-underline': i === 0 }">
-          {{ s.value }}
+          {{ formatValue(displayValues[i], s.decimals) }}{{ s.suffix }}
         </div>
         <div class="wrapper__label">{{ s.label }}</div>
       </div>
@@ -28,16 +28,85 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+
+// Explicit targets and suffixes so мы красиво форматируем
 const items = [
-  { value: '50+',     label: 'Foydalanuvchilar' },
-  { value: '500+',    label: 'Hujjat almashinuvi' },
-  { value: '4.9/5.0', label: 'Berilgan baholar' },
-  { value: '3x',      label: 'Vaqtni tejash' },
-];
+  { target: 50,   suffix: '+',   label: 'Foydalanuvchilar',   decimals: 0 },
+  { target: 500,  suffix: '+',   label: 'Hujjat almashinuvi', decimals: 0 },
+  { target: 4.9,  suffix: '/5.0',label: 'Berilgan baholar',   decimals: 1 },
+  { target: 3,    suffix: 'x',   label: 'Vaqtni tejash',      decimals: 0 },
+]
+
+// Отрисовываемые значения (стартуют с нуля)
+const displayValues = ref(items.map(() => 0))
+
+// Реф на секцию, чтобы запустить анимацию при появлении
+const sectionEl = ref(null)
+let started = false
+
+const DURATION = 1500 // ms
+
+const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+
+function animateCount() {
+  const start = performance.now()
+  const from = displayValues.value.slice()
+
+  function frame(now) {
+    const progress = Math.min(1, (now - start) / DURATION)
+    const eased = easeOutCubic(progress)
+
+    displayValues.value = items.map((it, idx) => {
+      const startVal = from[idx] || 0
+      const delta = it.target - startVal
+      return startVal + delta * eased
+    })
+
+    // Если это последний элемент (3x), включаем эффект увеличения
+    if (progress < 1 && items[3]) {
+      const el = document.querySelector('.wrapper__item:nth-child(4) .wrapper__value')
+      if (el) {
+        el.style.transform = `scale(${1 + 0.2 * Math.sin(progress * Math.PI)})`
+      }
+    } else {
+      const el = document.querySelector('.wrapper__item:nth-child(4) .wrapper__value')
+      if (el) el.style.transform = 'scale(1)'
+    }
+
+    if (progress < 1) requestAnimationFrame(frame)
+    else {
+      // На всякий случай зафиксируем точные целевые значения
+      displayValues.value = items.map((it) => it.target)
+    }
+  }
+
+  requestAnimationFrame(frame)
+}
+
+function formatValue(v, decimals = 0) {
+  // аккуратно форматируем с нужным количеством знаков после запятой
+  return Number(v).toFixed(decimals).replace(/\.0+$/, '')
+}
+
+onMounted(() => {
+  // Запуск при появлении секции на экране
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !started) {
+        started = true
+        animateCount()
+        observer.disconnect()
+      }
+    })
+  }, { threshold: 0.25 })
+
+  if (sectionEl.value) observer.observe(sectionEl.value)
+})
 </script>
 
 <style lang="scss" scoped>
-:root { --primary: 270 90% 55%; } /* если уже объявлен глобально — удали эту строку */
+:root { --primary: 270 90% 55%; }
 
 .wrapper { 
     padding: 64px 0 48px; 
@@ -94,21 +163,21 @@ font-size: 16px;
 
 .wrapper__grid {
   margin-top: clamp(24px, 4vw, 48px);
-  display: flex;                 /* FLEX вместо GRID */
-  flex-wrap: wrap;               /* перенос строк */
-  justify-content: space-between;/* равные промежутки между карточками */
-  row-gap: clamp(16px, 3vw, 32px);/* вертикальный промежуток между рядами */
-  column-gap: 0;                 /* горизонтальный gap не нужен при space-between */
+  display: flex;                 
+  flex-wrap: wrap;               
+  justify-content: space-between;
+  row-gap: clamp(16px, 3vw, 32px);
+  column-gap: 0;                 
   border-top: 2px solid hsl(var(--primary) / .6);
   border-bottom: 2px solid hsl(var(--primary) / .6);
   padding: 28px 0;
 }
 .wrapper__item {
-  flex: 0 1 220px;      /* базовая ширина карточки; помещается 4 шт на десктопе */
+  flex: 0 1 220px;     
   display: flex;
   flex-direction: column;
-  align-items: center;  /* центр содержимого */
-  text-align: center;   /* центр текста */
+  align-items: center;
+  text-align: center;  
 }
 
 .wrapper__value {
@@ -118,8 +187,9 @@ font-size: 16px;
   line-height: 1;
   display: inline-block;
   position: relative;
+  transition: transform 0.3s ease;
 }
-/* solid purple underline under first number */
+
 .wrapper__value.with-underline::after {
   content: "";
   position: absolute;

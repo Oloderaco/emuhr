@@ -1,5 +1,5 @@
 <template>
-  <section id="pricing" class="pricing">
+  <section id="pricing" class="pricing" ref="sectionEl">
     <div class="container">
       <wrapper class="head">
         <h2 class="head__title">Ta’riflar va Narxlar</h2>
@@ -12,7 +12,7 @@
       </wrapper>
 
       <div class="grid">
-        <article class="card">
+        <article class="card" :class="{ 'is-visible': visible[0] }" :ref="el => (cardRefs[0] = el)">
           <div class="card__body">
             <div class="eyebrow">Sinab ko’rish</div>
             <h3 class="title">Demo</h3>
@@ -32,7 +32,7 @@
             </a>
         </article>
 
-        <article class="card card--featured">
+        <article class="card card--featured" :class="{ 'is-visible': visible[1], 'emphasize': emphasizeCenter }" :ref="el => (cardRefs[1] = el)">
           <div class="card__body">
             <div class="eyebrow">Foydalanuvchi soni</div>
             <span class="badge">Mashxur</span>
@@ -59,7 +59,7 @@
           
         </article>
 
-        <article class="card">
+        <article class="card" :class="{ 'is-visible': visible[2] }" :ref="el => (cardRefs[2] = el)">
           <div class="card__body">
             <div class="eyebrow">Kelishilgan narxda</div>
             <h3 class="title">Korporativ</h3>
@@ -87,8 +87,39 @@
 </template>
 
 <script setup>
-import UIbutton from '@/UI/UIbutton.vue';
+import { ref, onMounted } from 'vue'
+import UIbutton from '@/UI/UIbutton.vue'
 
+const sectionEl = ref(null)
+const cardRefs = ref([])
+const visible = ref([false, false, false])
+const emphasizeCenter = ref(false)
+let started = false
+
+function runSequence() {
+  if (started) return
+  started = true
+  setTimeout(() => (visible.value[0] = true), 60)
+  setTimeout(() => (visible.value[2] = true), 300)
+  setTimeout(() => {
+    visible.value[1] = true
+    emphasizeCenter.value = true
+    setTimeout(() => (emphasizeCenter.value = false), 700)
+  }, 600)
+}
+
+onMounted(() => {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        runSequence()
+        io.disconnect()
+      }
+    })
+  }, { threshold: 0.2 })
+
+  if (sectionEl.value) io.observe(sectionEl.value)
+})
 </script>
 
 <style scoped>
@@ -100,6 +131,16 @@ import UIbutton from '@/UI/UIbutton.vue';
 .head__cta { margin: 8px auto 0; display: inline-flex; }
 
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: stretch; }
+
+.card { opacity: 0; transform: translateY(24px) scale(0.98); }
+.card.is-visible { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s ease; }
+
+.card.emphasize { animation: pop-in 520ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes pop-in {
+  0% { transform: translateY(10px) scale(0.92); opacity: .6; }
+  60% { transform: translateY(0) scale(1.04); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
 
 .card {
   position: relative;

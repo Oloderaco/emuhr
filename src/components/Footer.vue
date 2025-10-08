@@ -75,9 +75,9 @@ import instagram from '@/assets/img/instagram.svg'
 
 <style lang="scss" scoped>
 .footer{
-    margin-top: 35px;
+    margin-top: 64px;
     background: #111111;
-    padding: 150px;
+    padding: 50px;
 }
 .footer__container{
     display: flex;
