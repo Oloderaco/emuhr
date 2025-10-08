@@ -1,0 +1,41 @@
+@import '../styles/fonts.css';
+
+* {
+    box-sizing: border-box;
+    font-family: SF Pro Display;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  scroll-behavior: smooth;
+}
+
+
+ul {
+  list-style: none;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.info {
+    background-color:#F2ECFF;
+    color: #7A43FA;
+    padding: 8px 12px;
+    border-radius: 32px;
+    font-size: 16px;
+    text-align: center;
+}
