@@ -50,9 +50,6 @@ const features = [
 </script>
 
 <style lang="scss" scoped>
-.features {
-}
-
 .features__title {
   font-size: 48px;
   font-weight: 700;

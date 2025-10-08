@@ -29,8 +29,11 @@
                             Elektron hujjat aylanish tizimida hujjatlarni nazorat qilish va ijro nazoratini yo’lga qo’yishingiz mumkin.
                         </p>
                     </div>
-                    <UIbutton label="Ariza yuborish"/>
-                    <!-- header__content-A-link -->
+                    <UIbutton 
+                        label="Bog’lanish"
+                        body="Assalomu aleykum, ..."
+                        emailLink="main@brb-tech.uz"
+                    />
                 </div>
                 <div class="header__content-B">
                     <img :src="laptop" alt="" class="header__content-B-img">

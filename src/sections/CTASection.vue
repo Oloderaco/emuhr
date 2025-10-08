@@ -5,7 +5,13 @@
             <h2 class="pricing__ad-title">Muammolarni yechimini ortga surmang!</h2>
             <div class="pricing__ad-box">
                 <span class="pricing__ad-box-text">Tashkilotingiz uchun ijro nazorati va hujjatlar aylanmasini elektron shaklda olib borish uchun eng optimal yechim. Batafsil ma’lumot uchun va bepul konsultatsiya uchun biz bilan bog’laning</span>
-                <UIbutton label="bog'lanish" bgColor="#F5F5F5" textColor="black"/>
+                <UIbutton 
+                label="bog'lanish" 
+                bgColor="#F5F5F5" 
+                textColor="black"
+                body="Здравствуйте! Подскажите, пожалуйста..."
+                emailLink="main@brb-tech.uz"
+                />
             </div>
         </div>
         </div>

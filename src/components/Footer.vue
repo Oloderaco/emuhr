@@ -18,22 +18,45 @@
                 </ul>
                 <div class="footer__container-box">
                     <ul class="footer__container-box-links">
-                        <a href="#" class="footer__container-box-link">
+                        <a
+                          href="https://www.instagram.com/brbtech.uz/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="footer__container-box-link"
+                        >
                             <img :src="instagram" alt="" class="footer__img">
                         </a>
-                        <a href="#" class="footer__container-box-link">
-                            <img :src="youtube" alt="" class="footer__img">
+                        <a
+                          href="https://www.linkedin.com/company/brb-tech/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="footer__container-box-link"
+                        >
+                            <img :src="linked" alt="" class="footer__img">
                         </a>
-                        <a href="#" class="footer__container-box-link">
+                        <a
+                          href="https://www.facebook.com/brbtech.uz"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="footer__container-box-link"
+                        >
                             <img :src="facebook" alt="" class="footer__img">
                         </a>
-                        <a href="#" class="footer__container-box-link">
+                        <a
+                          href="https://t.me/brbtech"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="footer__container-box-link"
+                        >
                             <img :src="telegram" alt="" class="footer__img">
                         </a>   
                     </ul>
                     <span class="footer__container-box-text">
                         Bizni ijtimoiy tarmoqlarda kuzating
                     </span>
+                    <a href="tel:+998555130505" class="footer__container-box-text">
+                        +998 (55) 513 05 05
+                    </a>
                     <span class="footer__container-box-rights">
                         © 2025 All RIghts Reserved
                     </span>
@@ -45,7 +68,7 @@
 
 <script setup>
 import telegram from '@/assets/img/telegram.svg'
-import youtube from '@/assets/img/youtube.svg'
+import linked from '@/assets/img/in.svg'
 import facebook from '@/assets/img/facebook.svg'
 import instagram from '@/assets/img/instagram.svg'
 </script>
@@ -83,7 +106,7 @@ import instagram from '@/assets/img/instagram.svg'
 .footer__container-box{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     flex-direction: column;
     gap: 30px;
 }

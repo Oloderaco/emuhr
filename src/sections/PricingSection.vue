@@ -4,7 +4,11 @@
       <wrapper class="head">
         <h2 class="head__title">Ta’riflar va Narxlar</h2>
         <p class="head__subtitle">Agar sizga maxsus narxlarda korporativ shartnoma kerak bo’lsa biz bilan bog’laning</p>
-        <UIbutton label="Bog’lanish" />
+        <UIbutton 
+          label="Bog’lanish"
+          body="Assalomu aleykum, ..."
+          emailLink="main@brb-tech.uz"
+         />
       </wrapper>
 
       <div class="grid">
@@ -20,10 +24,14 @@
               <li>Standart imzo moduli</li>
             </ul>
           </div>
-            <a href="#" class="btn tray tray--filled">Bog’lanish</a>
+            <a
+              href="mailto:main@brb-tech.uz?subject=Savol narxlar haqida&body=Assalomu alaykum! Iltimos, ta'riflar haqida ma'lumot bering."
+              class="btn tray tray--filled"
+            >
+              Bog’lanish
+            </a>
         </article>
 
-        <!-- $5 popular -->
         <article class="card card--featured">
           <div class="card__body">
             <div class="eyebrow">Foydalanuvchi soni</div>
@@ -42,7 +50,12 @@
               <li>Maxfiylik va shifrlash qoidalari</li>
             </ul>
           </div>
-            <a href="#" class="btn tray tray--filled">Bog’lanish</a>
+            <a
+              href="mailto:main@brb-tech.uz?subject=Savol narxlar haqida&body=Assalomu alaykum! Iltimos, ta'riflar haqida ma'lumot bering."
+              class="btn tray tray--filled"
+            >
+              Bog’lanish
+            </a>
           
         </article>
 
@@ -59,7 +72,12 @@
               <li>Serverga o’rnatiladigan versiya (on-premise)</li>
             </ul>
           </div>
-            <a href="#" class="btn tray tray--filled">Bog’lanish</a>
+            <a
+              href="mailto:main@brb-tech.uz?subject=Savol narxlar haqida&body=Assalomu alaykum! Iltimos, ta'riflar haqida ma'lumot bering."
+              class="btn tray tray--filled"
+            >
+              Bog’lanish
+            </a>
         </article>
 
       </div>

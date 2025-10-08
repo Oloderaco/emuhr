@@ -1,15 +1,19 @@
 <template>
-  <button class="button" :style="btnStyle">{{ label }}</button>
+  <button class="button" :style="btnStyle" @click="sendEmail">{{ label }}</button>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { defineProps } from 'vue'
 
 const props = defineProps({
   label: { type: String, default: 'Button' },
   size: { type: String, default: 'md' }, // sm, md, lg
   bgColor: { type: String, default: '#7A43FA' },
-  textColor: { type: String, default: '#FFFFFF' }
+  textColor: { type: String, default: '#FFFFFF' },
+  emailLink: { type: String, default: '' },
+  subject: { type: String, default: '' },
+  body: { type: String, default: '' }
 })
 
 const btnStyle = computed(() => {
@@ -31,6 +35,16 @@ const btnStyle = computed(() => {
     color: props.textColor,
   }
 })
+
+function sendEmail() {
+  if (!props.emailLink) return
+  let mailtoLink = `mailto:${props.emailLink}`
+  const params = []
+  if (props.subject) params.push(`subject=${encodeURIComponent(props.subject)}`)
+  if (props.body) params.push(`body=${encodeURIComponent(props.body)}`)
+  if (params.length) mailtoLink += `?${params.join('&')}`
+  window.location.href = mailtoLink
+}
 </script>
 
 <style scoped>
